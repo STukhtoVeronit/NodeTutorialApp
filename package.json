@@ -17,11 +17,8 @@
   },
   "homepage": "https://github.com/STukhtoVeronit/NodeTutorialApp#readme",
   "devDependencies": {
-    "mocha": "^5.2.0",
-    "mongoose": "^5.2.9"
   },
   "dependencies": {
-    "g": "^2.0.1",
     "npx": "^10.2.0"
   }
 }
