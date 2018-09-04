@@ -16,8 +16,7 @@
     "url": "https://github.com/STukhtoVeronit/NodeTutorialApp/issues"
   },
   "homepage": "https://github.com/STukhtoVeronit/NodeTutorialApp#readme",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "npx": "^10.2.0"
   }
