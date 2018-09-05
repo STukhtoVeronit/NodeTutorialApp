@@ -21,7 +21,7 @@ switch (command){
 
   case 'create':
     create(title, content, error => {
-      if (error) return cosnole.log(error.message);
+      if (error) return console.log(error.message);
 
       console.log('Note has created');
     });
@@ -40,20 +40,13 @@ switch (command){
 }
 
 function list(done) {
-  fs.readFile('notes.json', (err,data) =>{
-    if (err) done(err);
-
-    const notes = JSON.parse(data);
-
-    done(null, notes);
-  } );
+  load(done);
 }
 
 function view(title, done) {
-  fs.readFile('notes.json', (error, data) => {
+  load((error, notes) => {
     if (error) return done(error);
 
-    const notes =  JSON.parse(data);
     const note = notes.find(note => note.title === title);
 
     if (!note) return done( new Error ("Note hasn't found"));
@@ -63,31 +56,49 @@ function view(title, done) {
   });
 }
 function create(title, content, done) {
-  fs.readFile('notes.json', (error, data) => {
+  load((error, notes) => {
     if (error) return done(error);
 
-    const notes =  JSON.parse(data);
     notes.push({ title, content });
-    const json = JSON.stringify(notes);
-
-    fs.writeFile('notes.json', json, error => {
-      if (error) return done(error);
-      done();
-    })
+    save(notes, done);
   });
 }
 function remove(title, done) {
-  fs.readFile('notes.json', (error, data) => {
+  load((error, notes) => {
     if (error) return done(error);
 
-    let notes =  JSON.parse(data);
     notes = notes.filter(note => note.title !== title);
 
-    const json = JSON.stringify(notes);
-
-    fs.writeFile('notes.json', json, error => {
-      if (error) return done(error);
-      done();
-    })
+    save(notes, done);
   });
+}
+
+function load(done) {
+  fs.readFile('notes.json', (error, data) => {
+    if (error) {
+      if (error.code === 'ENOENT') {
+        return done (null, []);
+      } else {
+        return done(error);
+      }
+    }
+    try {
+      let notes =  JSON.parse(data);
+      done(null, notes);
+    } catch (e) {
+      done(e);
+    }
+  });
+}
+function save(notes, done) {
+    try {
+      const json = JSON.stringify(notes);
+
+      fs.writeFile('notes.json', json, error => {
+        if (error) return done(error);
+        done();
+      });
+      } catch (e) {
+        done(e);
+    }
 }
