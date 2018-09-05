@@ -1,18 +1,17 @@
+//your key: b4f52eb3
 const http = require('http');
 
-const server = http.createServer();
+const {publicRoute,home,search, notFound} = require('./routes');
 
-server.on('request', (req, res) => {
-	if (req.url.match(/\.(html|css|js|png)$/)){
+http.createServer((req, res) => {
+		if (req.url.match(/.(html|css|js|png)$/)){
+			publicRoute(req, res);
+		} else if (req.url === '/') {
+			home(req, res);
+		} else if (req.url.startsWith('/search')){
+			search(req, res);
+		} else {
+			notFound(req, res);
+		}
 
-	} else if (req.url === '/') {
-
-	} else if (req.url.startsWith('/search')){
-
-	} else {
-
-	}
-
-	res.writeHead(200, {'Content-type': 'text/html'});
-	res.end('');
-}).listen(3000, () => console.log('server listening on port 3000'));
+	}).listen(3000, () => console.log('server listening on port 3000'));
