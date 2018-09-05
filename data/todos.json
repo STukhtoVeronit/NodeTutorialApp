@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "title": "Learn JS",
+    "completed": true
+  },
+  {
+    "id": 2,
+    "title": "Learn react",
+    "completed": false
+
+  },
+  {
+    "id": 3,
+    "title": "Learn Redux",
+    "completed": false
+
+  }
+]
