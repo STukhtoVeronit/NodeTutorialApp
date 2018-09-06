@@ -1,7 +1,11 @@
 //your key: b4f52eb3
+//http://www.omdbapi.com/?apikey=b4f52eb3&s=dog
+const render = require('./lib/render');
 const http = require('http');
 
 const {publicRoute,home,search, notFound} = require('./routes');
+
+http.ServerResponse.prototype.render = render;
 
 http.createServer((req, res) => {
 		if (req.url.match(/.(html|css|js|png)$/)){

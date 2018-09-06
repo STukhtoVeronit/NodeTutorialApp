@@ -31,10 +31,10 @@ function publicRoute(req, res) {
 	stream.pipe(res);
 	stream.on('error', error=>{
 		if (error.code === 'ENOENT'){
-			res.writeHead(404, {'Content-Type': 'text/plain'})
+			res.writeHead(404, {'Content-Type': 'text/plain'});
 			res.end('Not found');
 		} else {
-			res.writeHead(500, {'Content-Type': 'text/plain'})
+			res.writeHead(500, {'Content-Type': 'text/plain'});
 			res.end(error.message);
 		}
 	})

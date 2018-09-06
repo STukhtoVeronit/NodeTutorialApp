@@ -1,12 +1,19 @@
-const fs = require('fs');
-const path = require('path');
+const url = require('url');
+
+const omdb = require('../lib/omdb');
+
 
 function search(req, res) {
-	res.statusCode = 200;
-	res.setHeader('Content-Type', 'text/html');
+	const parseUrl = url.parse(req.url, true);
+	const {title} = parseUrl.query;
 
-	const stream = fs.createReadStream(path.resolve('public', "movie.html"));
+	omdb.get(title, (error, movie) => {
+		if (error){
+			return res.render('error.html', { error: error.message});
+		}
 
-	stream.pipe(res);
+		res.render('movie.html', movie);
+	});
 }
+
 module.exports = search;
